@@ -47,6 +47,20 @@ textInput.addEventListener("keyup",()=>{
 socket.on("message-updated",data=>{
     let textInput = document.querySelector("#textInput");
     textInput.value = data;
+    if(countWhitespace.checked){
+        characters.textContent = "Characters: "+data.length;
+    }
+    else{
+        characters.textContent = "Characters: " + data.replace(/\s+/g,"").length;
+    }
+    if(data.length === 0){
+        words.textContent="Words: 0"
+    }
+    else{
+    let wordCount = 1;
+    data.replace(/\s+/g,(a)=>{wordCount++;});
+    words.textContent="Words: "+wordCount;
+    }
 })
 
 //Initialize notepad of new user to display text if it has been edited
