@@ -66,4 +66,4 @@ const getUniqueId = ()=>{
 }
 
 //Setting up server
-http.listen(process.env.PORT||4000,()=>{console.log("Listening on port 4000")})
+http.listen(process.env.PORT||4000,()=>{console.log("Listening...")})
