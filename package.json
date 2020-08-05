@@ -1,12 +1,12 @@
 {
-  "name": "note_app",
+  "name": "take-note",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A notepad.pw clone to transfer text in real time using websockets",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
-  "author": "",
+  "author": "Akshat Kumar",
   "license": "ISC",
   "dependencies": {
     "ejs": "^3.1.3",
