@@ -14,7 +14,7 @@ let textInput = document.querySelector("#textInput"); //Textarea for input
 let words = document.querySelector("#words"); //word counter
 let characters = document.querySelector("#characters"); //character counter
 let intro = document.querySelector(".intro"); //Title for changing url
-
+let countWhitespace = document.getElementById("whitespace"); // checkbox for counting whitespace;
 //Put request sent to server to redirect to new url
 intro.addEventListener("click",()=>{
     document.forms["refresh-form"].submit(); // since form is submitted using div this step is required
@@ -32,8 +32,14 @@ textInput.addEventListener("keyup",()=>{
                                               // increment the word count 
     words.textContent="Words: "+wordCount; // set the word count
 }
-    characters.textContent = "Characters: " + text.replace(/\s+/g,"").length; // replace all 
-                                                                              //white spaces to count characters
+    if(countWhitespace.checked){    //If count whitespace is checked then the length is the character count
+        characters.textContent = "Characters: " + text.length;
+    }
+    else{
+        characters.textContent = "Characters: " + text.replace(/\s+/g,"").length; // replace all 
+                                                                                  //white spaces to count characters
+    }
+    
     socket.emit("message",text); // send updated text to server
 })
 
@@ -47,7 +53,12 @@ socket.on("message-updated",data=>{
 socket.on("update",data=>{
     let textInput = document.querySelector("#textInput");
     textInput.value = data;
-    characters.textContent = "Characters: " + data.replace(/\s+/g,"").length;
+    if(countWhitespace.checked){
+        characters.textContent = "Characters: "+data.length;
+    }
+    else{
+        characters.textContent = "Characters: " + data.replace(/\s+/g,"").length;
+    }
     if(data.length === 0){
         words.textContent="Words: 0"
     }
@@ -56,4 +67,16 @@ socket.on("update",data=>{
     data.replace(/\s+/g,(a)=>{wordCount++;});
     words.textContent="Words: "+wordCount;
 }
+})
+
+//Change character count when users checks or unchecks checkbox
+countWhitespace.addEventListener("change",()=>{
+    let text = document.querySelector("#textInput").value;
+    if(countWhitespace.checked){    //If count whitespace is checked then the length is the character count
+        characters.textContent = "Characters: " + text.length;
+    }
+    else{
+        characters.textContent = "Characters: " + text.replace(/\s+/g,"").length; // replace all 
+                                                                                  //white spaces to count characters
+    }
 })
