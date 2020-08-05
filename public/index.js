@@ -1,39 +1,50 @@
-const socket = io("http://localhost:4000/");
-socket.emit("initialize",url);
+const socket = io("http://localhost:4000/"); //getting dependency
+socket.emit("initialize",url); //called every time new user joins the room to initialze the notepad
 
+//If somebody in the room has updated the notepad, new user joining gets the notepad initialized
 socket.on("message-initialize",data=>{
     let textInput = document.querySelector("#textInput");
     if(textInput.value.length!==0){
-        console.log(textInput.value)
         socket.emit("message-initialized",textInput.value);
     }
 })
-let textInput = document.querySelector("#textInput");
-let words = document.querySelector("#words");
-let characters = document.querySelector("#characters");
-let intro = document.querySelector(".intro");
+
+
+let textInput = document.querySelector("#textInput"); //Textarea for input
+let words = document.querySelector("#words"); //word counter
+let characters = document.querySelector("#characters"); //character counter
+let intro = document.querySelector(".intro"); //Title for changing url
+
+//Put request sent to server to redirect to new url
 intro.addEventListener("click",()=>{
-    document.forms["refresh-form"].submit();
+    document.forms["refresh-form"].submit(); // since form is submitted using div this step is required
 })
+
+//Called every time user types in the text area
 textInput.addEventListener("keyup",()=>{
-    let text = textInput.value;
-    if(text.length === 0){
+    let text = textInput.value; // gets text area text
+    if(text.length === 0){ // if empty set word count to 0
         words.textContent="Words: 0"
     }
     else{
     let wordCount = 1;
-    text.replace(/\s+/g,(a)=>{wordCount++;});
-    words.textContent="Words: "+wordCount;
+    text.replace(/\s+/g,(a)=>{wordCount++;}); // regex checks for all whitespaces and everytime it is found 
+                                              // increment the word count 
+    words.textContent="Words: "+wordCount; // set the word count
 }
-    characters.textContent = "Characters: " + text.replace(/\s+/g,"").length;
-    socket.emit("message",text);
+    characters.textContent = "Characters: " + text.replace(/\s+/g,"").length; // replace all 
+                                                                              //white spaces to count characters
+    socket.emit("message",text); // send updated text to server
 })
+
+//Receive updated text from server
 socket.on("message-updated",data=>{
     let textInput = document.querySelector("#textInput");
     textInput.value = data;
 })
+
+//Initialize notepad of new user to display text if it has been edited
 socket.on("update",data=>{
-    console.log("received")
     let textInput = document.querySelector("#textInput");
     textInput.value = data;
     characters.textContent = "Characters: " + data.replace(/\s+/g,"").length;
