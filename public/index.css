@@ -1,0 +1,32 @@
+textarea{
+    width: 90%;
+    resize: none;
+    height:500px;
+    padding: 1.2rem;
+    margin-top: 1rem;
+}
+
+
+.container{
+    width: 90%;
+    margin: 0 auto;
+    border: 1px solid blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.intro{
+    font-size: 1.5em;
+    font-family: 'Roboto', sans-serif;
+}
+.introdiv{
+    padding: 1.2rem;
+    margin: 1.2rem 1.2rem;
+    margin:0 auto;
+    text-align: center;
+}
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}

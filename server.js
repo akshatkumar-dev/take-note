@@ -18,6 +18,11 @@ io.on("connection",socket=>{
     socket.on("initialize",data=>{
         url = data;
         socket.join(data);
+        socket.to(url).emit("message-initialize",url);
+    })
+    socket.on("message-initialized",data=>{
+        socket.to(url).emit("update",data);
+        
     })
     socket.on("message",data=>{
         socket.to(url).emit("message-updated",data);
