@@ -11,6 +11,10 @@ socket.on("message-initialize",data=>{
 let textInput = document.querySelector("#textInput");
 let words = document.querySelector("#words");
 let characters = document.querySelector("#characters");
+let intro = document.querySelector(".intro");
+intro.addEventListener("click",()=>{
+    document.forms["refresh-form"].submit();
+})
 textInput.addEventListener("keyup",()=>{
     let text = textInput.value;
     if(text.length === 0){
@@ -32,4 +36,13 @@ socket.on("update",data=>{
     console.log("received")
     let textInput = document.querySelector("#textInput");
     textInput.value = data;
+    characters.textContent = "Characters: " + data.replace(/\s+/g,"").length;
+    if(data.length === 0){
+        words.textContent="Words: 0"
+    }
+    else{
+    let wordCount = 1;
+    data.replace(/\s+/g,(a)=>{wordCount++;});
+    words.textContent="Words: "+wordCount;
+}
 })

@@ -13,6 +13,10 @@ app.get("/:url",(req,res)=>{
     const url = req.params.url;    
     res.render("index",{url:url});
 })
+
+app.post("/",(req,res)=>{
+    res.redirect("/");
+})
 io.on("connection",socket=>{
     let url;
     socket.on("initialize",data=>{
@@ -49,4 +53,6 @@ const getUniqueId = ()=>{
     }
     return url;
 }
+
+
 http.listen(process.env.PORT||4000,()=>{console.log("Listening on port 4000")})
